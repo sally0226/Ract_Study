@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import TOC from './components/TOC.js'
+import Subject1 from './components/Subject1.js'
+import Control from './components/Control.js'
+import CreateContent from './components/CreateContent.js';
 import './App.css';
 
-class Subject1 extends Component { //props 예제
-  render() { //컴퍼넌트는 반드시 하나의 최상위 태그로 시작해야함 
-    return (
-      <header>
-        <h1>{this.props.title}</h1>
-        {this.props.sub}
-    </header>
-    );
-  }
-}
+
+
 class Subject2  extends Component { //state 예제
   render() { 
     return (
@@ -28,8 +23,9 @@ class Subject2  extends Component { //state 예제
 class App extends Component {
   constructor(props){ //초기화 담당
     super(props);
+    this.max_content_id = 3; //UI영향을 주지 않기 때문에 state값으로 안해도됨. 그냥 value로 만들어 이용하기 
     this.state = {
-      mode:"main",
+      mode:"create",//"main",
       selected_content_id : 2,
       main:{title:"Welcome", sub:"Hello React!"},
       subject2:{title:"WEB", sub:"Hello web"},
@@ -41,18 +37,33 @@ class App extends Component {
     }
   }
   render() {
-    var _title, _sub = null;
+    var _title, _sub, _article= null;
     if (this.state.mode === "main") {
       _title = this.state.main.title;
       _sub = this.state.main.sub;
+      _article = <Subject1 title={_title} sub={_sub}></Subject1>
     } else if(this.state.mode === "read") {
       _title = this.state.contents[this.state.selected_content_id-1].title;
       _sub = this.state.contents[this.state.selected_content_id-1].desc;
+      _article = <Subject1 title={_title} sub={_sub}></Subject1>
+    } else if(this.state.mode === "create"){
+      _article = <CreateContent onSubmit={function(_title,_desc){
+          //add content to this.state.contents
+          this.max_content_id +=1;
+          // this.state.contents.push({id:this.max_content_id, title:_title, desc:_desc}) // 이렇게 state값을 직젒 수정하면 React가 알지 못해서 아무 일도 안일어남
+          // this.setState({
+          //   contents:this.state.contents
+          // }); //React의 성능을 개선하려고 할 때 까다로운 방법.. 
+          // push : 원본을 바꿈 , concat : 원본을 변경한 새로운 배열이 return됨 
+          var _contents = this.state.contents.concat({id:this.max_content_id, title:_title, desc:_desc});
+          this.setState({
+            contents:_contents
+          });
+      }.bind(this)}></CreateContent>
     }
     return (
       <div className="App">
-        
-      {/* <Subject1 title="WEB" sub="welcome!"></Subject1> */}
+     
       <Subject2
         title = {this.state.subject2.title}
         sub = {this.state.subject2.sub}
@@ -63,7 +74,6 @@ class App extends Component {
       </Subject2>
       <TOC 
         onChangePage = {function(id){
-          alert('hihihihi');
           this.setState({
             mode:"read",
             selected_content_id:id
@@ -71,10 +81,14 @@ class App extends Component {
         }.bind(this)}
         data={this.state.contents}
       ></TOC>
-      <header> 
-        <h1>{_title}</h1>
-        {_sub}
-      </header>
+      <Control onChangeMode={function(_mode){
+        //이벤트 핸들러
+        console.log(_mode);
+        this.setState({
+          mode:_mode
+        });
+      }.bind(this)}></Control>
+      {_article}
       </div>
     );
   }
