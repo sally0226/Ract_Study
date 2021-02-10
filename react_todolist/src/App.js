@@ -1,5 +1,3 @@
-import logo from './logo.svg';
-import './App.css';
 import {createGlobalStyle} from 'styled-components';
 import TodoTemplate from './components/Todo Template';
 import TodoHead from './components/TodoHead';
@@ -15,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <GlobalStyle></GlobalStyle>
       <TodoTemplate>
         <TodoHead></TodoHead>
