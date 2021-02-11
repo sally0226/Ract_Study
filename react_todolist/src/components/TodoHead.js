@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTodoState } from '../TodoContext';
+
 // 오늘의 날짜와 요일, 앞으로 남은 목록 개수 보여줌 
 const TodoHeadBlock = styled.div`
     text-align: left;
@@ -28,6 +30,8 @@ const TodoHeadBlock = styled.div`
 `;
 
 function TodoHead(){
+    const todos = useTodoState();
+    console.log(todos);
     return (
         <TodoHeadBlock>
             <h1>2021년 2월 9일</h1> 
