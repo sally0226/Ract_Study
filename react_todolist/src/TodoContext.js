@@ -24,6 +24,7 @@ const initialTodos = [
 ];
 
 function todoReducer(state, action){
+    console.log("todoReducer",action.type);
     switch (action.type) {
         case 'CREATE':
             return state.concat(action.todo);

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import styled, {css} from 'styled-components';
 import {MdAdd} from 'react-icons/md';
+import { useTodoDispatch, useTodoNextId } from '../TodoContext';
 
 const CircleButton = styled.button`
     background: #38d9a9;
@@ -76,15 +77,43 @@ const Input = styled.input`
 `;
 
 function TodoCreate(){
-    const [open, setOpen] = useState(false);
+    // useState() : 상태의 기본 값을 파라미터로 넣어서 호출
+    // return : [현재 상태, Setter 함수]
+    // Setter 함수 : 파라미터로 전달받은 값을 최신 상태로 설정 
+    const [open, setOpen] = useState(false); // 배열 비구조화 할당 
+    const [value, setValue] = useState('');
+    
+    const dispatch = useTodoDispatch();
+    const nextId = useTodoNextId();
+
     const onToggle = () => setOpen(!open);
+    const onChange = e => setValue(e.target.value);
+    const onSubmit = e => {
+        e.preventDefault(); // 새로고침 방지
+        dispatch({
+            type: 'CREATE',
+            todo: {
+                id : nextId.current,
+                text: value,
+                done: false
+            }
+        });
+        setValue('');
+        setOpen(false);
+        nextId.current += 1;
+    };
 
     return (
         <>
             {open && (
                 <InsertFormPositioner>
-                    <InsertForm>
-                        <Input autoFocus placeholder="할 일을 입력하고, Enter를 누르세요"/>
+                    <InsertForm onSubmit={onSubmit}>
+                        <Input 
+                            autoFocus 
+                            placeholder="할 일을 입력하고, Enter를 누르세요"
+                            onChange = {onChange}
+                            value = {value}
+                        />
                     </InsertForm>
                 </InsertFormPositioner>
             )}
@@ -95,4 +124,7 @@ function TodoCreate(){
     );
 }
 
-export default TodoCreate;
+export default React.memo(TodoCreate);
+// 컴포넌트가 React.memo()로 렌더링될 때, React는 컴퍼넌트를 렌더링 후 결과를 메모이징 한다.
+// 그리고 다음 렌더링이 일어날 때 props가 같다면, React는 메모이징 된 내용을 재사용한다
+// https://ui.toast.com/weekly-pick/ko_20190731
