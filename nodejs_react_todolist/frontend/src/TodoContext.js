@@ -1,27 +1,27 @@
 import React, {createContext, useContext, useReducer, useRef} from 'react';
 
-const initialTodos = [
-    {
-        id: 1,
-        text: '첫 번째 todo',
-        done: true
-    },
-    {
-        id: 2,
-        text: '두 번째 todo',
-        done: true
-    },
-    {
-        id: 3,
-        text: '세 번째 todo',
-        done: false
-    },
-    {
-        id: 4,
-        text: '네 번째 todo',
-        done: false
-    }
-];
+// const initialTodos = [
+//     {
+//         id: 1,
+//         text: '첫 번째 todo',
+//         done: true
+//     },
+//     {
+//         id: 2,
+//         text: '두 번째 todo',
+//         done: true
+//     },
+//     {
+//         id: 3,
+//         text: '세 번째 todo',
+//         done: false
+//     },
+//     {
+//         id: 4,
+//         text: '네 번째 todo',
+//         done: false
+//     }
+// ];
 
 function todoReducer(state, action){
     console.log("todoReducer",action.type);
@@ -43,8 +43,8 @@ const TodoDispatchContext = createContext();
 const TodoNextIdContext = createContext();
 
 //state 관리 컴포넌트 
-export function TodoProvider({children}){
-    const [state, dispatch] = useReducer(todoReducer, initialTodos);
+export function TodoProvider(props,{children}){
+    const [state, dispatch] = useReducer(todoReducer, props.initialTodos);
     const nextId = useRef(5);
     return (
         <TodoStateContext.Provider value={state}>

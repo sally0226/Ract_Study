@@ -22,16 +22,18 @@ const WrapAll = styled.div`
 
 function App() {
   const [state, setState] = useState({
-    username: null
+    //username: null
+    initalList: null
   });
   useEffect(() => {
     fetch('http://localhost:3002/api')
     .then(res=>res.json())
-    .then(data=>setState({username:data.username}));
+    .then(data=>setState({initalList:data}));
   });
-  const _username = state.username;
+
+  //const _username = state.username;
   return (
-    <TodoProvider>
+    <TodoProvider initalTodos={state.initalList}>
       <GlobalStyle/>
       <WrapAll>
 			<TodoChangeDate info="left">
