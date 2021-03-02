@@ -8,6 +8,8 @@ import {TodoProvider} from './TodoContext';
 import TodoChangeDate from './components/TodoChangeDate';
 import styled from 'styled-components';
 
+import Header from './components/Header';
+
 const GlobalStyle = createGlobalStyle`
   body {
     background: #e9ecef;
@@ -44,12 +46,12 @@ function App() {
 
   if (showing){
 	return (
-		//   <div>
-		// 	  {`data : ${state.initalList}`}
-		//   </div>
-		<TodoProvider initalTodos={state.initalList}>
-		  <GlobalStyle/>
-		  <WrapAll>
+		<div>
+			<Header>
+			</Header>
+			<TodoProvider initalTodos={state.initalList}>
+		  	<GlobalStyle/>
+		  	<WrapAll>
 				<TodoChangeDate info="left">
 				</TodoChangeDate>
 				<TodoTemplate>
@@ -61,6 +63,8 @@ function App() {
 				</TodoChangeDate>
 			</WrapAll>
 		</TodoProvider>
+		</div>
+		
 	  );
   }
   else {
