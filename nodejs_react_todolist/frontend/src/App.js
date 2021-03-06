@@ -23,33 +23,12 @@ const WrapAll = styled.div`
 `;
 
 function App() {
-	const [showing, setShowing] = useState(false);
-  	const [state, setState] = useState({
-		//username: null
-		initalList: [{
-			id: 1,
-			text: '가짜값',
-			done: true
-		}]
-  });
-  	useEffect(() => {
-		console.log('start useEffect');
-		fetch('http://localhost:3002/api').then(res=>res.json()).then(data=>{
-		setState({initalList:data.initialTodos});
-		setShowing(true)
-    });
-  },[]); //빈 배열을 넣어 반복 실행되지 않도록.. 
 
-	console.log("App state:",state.initalList);
-  //const _todos = state.initalList;
-  //console.log("todos:",_todos);
-
-  if (showing){
 	return (
 		<div>
 			<Header>
 			</Header>
-			<TodoProvider initalTodos={state.initalList}>
+			<TodoProvider>
 		  	<GlobalStyle/>
 		  	<WrapAll>
 				<TodoChangeDate info="left">
@@ -66,16 +45,6 @@ function App() {
 		</div>
 		
 	  );
-  }
-  else {
-	  //로드중 페이지 나중에 꾸미기 
-	  return(
-		<div>
-			페이지를 로드 중입니다 
-		</div>
-	  );
-	  
-  }
   
 }
 export default App;
