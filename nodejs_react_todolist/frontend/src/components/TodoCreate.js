@@ -84,8 +84,8 @@ function TodoCreate(){
     const [value, setValue] = useState('');
     
     const dispatch = useTodoDispatch();
-    const nextId = useTodoNextId();
-
+    var nextId = useTodoNextId();
+    console.log("nextId :",nextId);
     const onToggle = () => setOpen(!open);
     const onChange = e => setValue(e.target.value);
     const onSubmit = e => {
@@ -93,14 +93,14 @@ function TodoCreate(){
         dispatch({
             type: 'CREATE',
             todo: {
-                id : nextId.current,
+                id : nextId,
                 text: value,
                 done: false
             }
         });
         setValue('');
         setOpen(false);
-        nextId.current += 1;
+        nextId += 1;
     };
 
     return (

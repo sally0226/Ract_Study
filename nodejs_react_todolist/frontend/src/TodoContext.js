@@ -1,33 +1,23 @@
 import React, {createContext, useContext, useReducer, useRef, useEffect} from 'react';
-import { init, useAsync } from 'react-async';
 
-// const initialTodos = [
-//         {
-//             id: 1,
-//             text: '첫 번째 todo',
-//             done: true
-//         },
-//         {
-//             id: 2,
-//             text: '두 번째 todo',
-//             done: true
-//         },
-//         {
-//             id: 3,
-//             text: '세 번째 todo',
-//             done: false
-//         },
-//         {
-//             id: 4,
-//             text: '네 번째 todo',
-//             done: false
-//         }
-// ];
-async function getInitialTodos(){
-    const response = await fetch('http://localhost:3002/api');
-    const data = await response.json();
-    return data.initialTodos;
-}
+const initialTodos = [
+        {
+            id: 1,
+            text: '첫 번째 todo',
+            done: true
+        },
+        {
+            id: 2,
+            text: '두 번째 todo',
+            done: true
+        },
+        
+        {
+            id: 4,
+            text: '네 번째 todo',
+            done: false
+        }
+];
 function todoReducer(state, action){
     console.log("todoReducer",action.type);
     switch (action.type) {
@@ -51,16 +41,20 @@ const TodoNextIdContext = createContext();
 
 //state 관리 컴포넌트 
 export function TodoProvider(props){
-    var initialTodos;
-    getInitialTodos().then(result =>alert(result));
-    const [state, dispatch] = useReducer(todoReducer,initialTodos);   
+    const [state, dispatch] = useReducer(todoReducer, initialTodos);
+    useEffect(()=> {
+        fetch('http://localhost:3002/api').then(res=>res.json()).then(data=>dispatch({
+            type: 'RENEW',
+            todo: data.initialTodos
+        }));
+    },[]);
     
-   console.log("context :",state);
-    const nextId = useRef(5);
+   console.log("context :",state.length);
+    //const nextId =useRef(5);
     return (
         <TodoStateContext.Provider value={state}>
             <TodoDispatchContext.Provider value={dispatch}>
-                <TodoNextIdContext.Provider value={nextId}>
+                <TodoNextIdContext.Provider value={state.length+1}>
                     {props.children}
                 </TodoNextIdContext.Provider>
             </TodoDispatchContext.Provider>
