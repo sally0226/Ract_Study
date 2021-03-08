@@ -3,20 +3,9 @@ import React, {createContext, useContext, useReducer, useRef, useEffect} from 'r
 const initialTodos = [
         {
             id: 1,
-            text: '첫 번째 todo',
+            text: '가짜 값',
             done: true
         },
-        {
-            id: 2,
-            text: '두 번째 todo',
-            done: true
-        },
-        
-        {
-            id: 4,
-            text: '네 번째 todo',
-            done: false
-        }
 ];
 function todoReducer(state, action){
     console.log("todoReducer",action.type);
