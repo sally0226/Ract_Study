@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useTodoState } from '../TodoContext';
+import { useTodoState, useDateState } from '../TodoContext';
 
 // 오늘의 날짜와 요일, 앞으로 남은 목록 개수 보여줌 
 const TodoHeadBlock = styled.div`
@@ -32,13 +32,15 @@ const TodoHeadBlock = styled.div`
 function TodoHead(){
     const todos = useTodoState();
     const undoneTasks = todos.filter(todo=>!todo.done);
-    const today = new Date();
-    const dateString = today.toLocaleDateString('ko-KR', {
+    //const today = new Date();
+    const date = useDateState();
+    console.log("date in todohead :", date);
+    const dateString = date.toLocaleDateString('ko-KR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
     });
-    const dayName = today.toLocaleDateString('ko-KR', {
+    const dayName = date.toLocaleDateString('ko-KR', {
         weekday: 'long'
     });
     console.log(todos);
