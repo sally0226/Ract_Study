@@ -53,7 +53,16 @@ export function TodoProvider(props){
     const today = new Date();
     const [dateState, dateDispatch] = useReducer(dateReducer, today);
     useEffect(()=> {
-        fetch('http://localhost:3002/api').then(res=>res.json()).then(data=>dispatch({
+        fetch('http://localhost:3002/api',{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: "RequestTodos",
+                key:dateState,
+            }),
+        }).then(res=>res.json()).then(data=>dispatch({ // res에 날짜 data 넣어서 보내야함 
             type: 'RENEW',
             todo: data.initialTodos
         }));
