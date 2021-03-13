@@ -23,14 +23,12 @@ const pool = mariadb.createPool({
 
 async function GetToDoList(date) {
     console.log("in DBConn :",date);
-    console.log("in DBConn :", typeof(date));
     let conn, rows;
-    const today = getFormatDate(new Date());
     const dateString = getFormatDate(new Date(date));
     //const LoadTodayList = 'SELECT * FROM list WHERE date = "' + "2021-02-28"+'"';
     const LoadTodayList = 'SELECT * FROM list WHERE date = "' + dateString +'"';
     //const today_s = today.getFullYear + "-" + today.getMonth + "-" + today.getDay;
-    //console.log(LoadTodayList); 
+    console.log(LoadTodayList); 
     try {
         conn = await pool.getConnection();
         conn.query('USE todolist');

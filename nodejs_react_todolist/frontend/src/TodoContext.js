@@ -52,21 +52,18 @@ export function TodoProvider(props){
 
     const today = new Date();
     const [dateState, dateDispatch] = useReducer(dateReducer, today);
+    console.log('http://localhost:3002/api/todolist/'+dateState);
     useEffect(()=> {
-        fetch('http://localhost:3002/api',{
-            method: "POST",
+        fetch('http://localhost:3002/api/todolist/'+dateState,{
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                title: "RequestTodos",
-                key:dateState,
-            }),
         }).then(res=>res.json()).then(data=>dispatch({ // res에 날짜 data 넣어서 보내야함 
             type: 'RENEW',
             todo: data.initialTodos
         }));
-    },[]);
+    },[dateState]);
     
    console.log("context :",state.length);
     //const nextId =useRef(5);

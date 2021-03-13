@@ -23,9 +23,21 @@ app.use(cors());
 app.use(bodyParser.json());
 // app.use('/api', (req, res)=> 
 //     res.json({initialTodos: 'bada'}));
-console.log("hi");
-app.use('/api', (req, res)=> {
-    mdbConn.getToDoList(req.body.key)
+
+// app.use('/api', (req, res)=> {
+//     mdbConn.getToDoList(req.body.key)
+//     .then((rows) => {
+//         console.log("query succes");
+//         res.json({initialTodos:rows});
+//     })
+//     .catch((errMsg) => {
+//         console.log(errMsg);
+//     })
+// });
+
+/* GET */
+app.get('/api/todolist/:date', function(req, res) {
+    mdbConn.getToDoList(req.params.date)
     .then((rows) => {
         console.log("query succes");
         res.json({initialTodos:rows});
@@ -33,9 +45,7 @@ app.use('/api', (req, res)=> {
     .catch((errMsg) => {
         console.log(errMsg);
     })
-}
-    
-);
+});
 app.listen(port, ()=>{
     console.log(`express is running on ${port}`);
 })
