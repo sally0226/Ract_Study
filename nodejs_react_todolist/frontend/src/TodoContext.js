@@ -27,14 +27,13 @@ function dateReducer(state, action){
     console.log("dateReducer");
     switch (action.type) {
         case '-':
-            console.log(state);
-            var newState = new Date(state.setDate(state.getDate()-1));
-            console.log(newState);
+            //console.log(state);
+            var newState = new Date(state.getTime()-1*24*60*60*1000);
+            //newState.setDate(state.nows()-1);
             return newState;
         case '+':
-            console.log(state);
-            var newState = new Date(state.setDate(state.getDate()+1));
-            console.log(newState);
+            var newState = new Date(state.getTime()+1*24*60*60*1000);
+            //newState.setDate(state.getDate()+1);
             return newState;
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
@@ -49,12 +48,12 @@ const DateStateContext = createContext();
 //state 관리 컴포넌트 
 export function TodoProvider(props){
     const [state, dispatch] = useReducer(todoReducer, initialTodos);
-
+    
     const today = new Date();
     const [dateState, dateDispatch] = useReducer(dateReducer, today);
-    console.log('http://localhost:3002/api/todolist/'+dateState);
+    //console.log('http://localhost:3002/api/todolist/'+dateState.toString());
     useEffect(()=> {
-        fetch('http://localhost:3002/api/todolist/'+dateState,{
+        fetch('http://localhost:3002/api/todolist/'+dateState.toString(),{
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -65,8 +64,8 @@ export function TodoProvider(props){
         }));
     },[dateState]);
     
-   console.log("context :",state.length);
-    //const nextId =useRef(5);
+    //console.log("context :",state.length);
+    
     return (
         <TodoStateContext.Provider value={state}>
             <TodoDispatchContext.Provider value={dispatch}>

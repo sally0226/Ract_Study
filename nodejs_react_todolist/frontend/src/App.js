@@ -30,17 +30,17 @@ function App() {
 			</Header>
 			<TodoProvider>
 		  	<GlobalStyle/>
-		  	<WrapAll>
-				<TodoChangeDate info="left">
-				</TodoChangeDate>
-				<TodoTemplate>
-					<TodoHead></TodoHead>
-					<TodoList></TodoList>
-					<TodoCreate></TodoCreate>
-				</TodoTemplate>
-				<TodoChangeDate info="right">
-				</TodoChangeDate>
-			</WrapAll>
+				<WrapAll>
+					<TodoChangeDate info="left">
+					</TodoChangeDate>
+					<TodoTemplate>
+						<TodoHead></TodoHead>
+						<TodoList></TodoList>
+						<TodoCreate></TodoCreate>
+					</TodoTemplate>
+					<TodoChangeDate info="right">
+					</TodoChangeDate>
+				</WrapAll>
 		</TodoProvider>
 		</div>
 		
