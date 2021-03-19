@@ -22,7 +22,6 @@ const pool = mariadb.createPool({
 });
 
 async function GetToDoList(date) {
-    console.log("in DBConn :",date);
     let conn, rows;
     const dateString = getFormatDate(new Date(date));
     //const LoadTodayList = 'SELECT * FROM list WHERE date = "' + "2021-02-28"+'"';
@@ -33,7 +32,7 @@ async function GetToDoList(date) {
         conn = await pool.getConnection();
         conn.query('USE todolist');
         rows = await conn.query(LoadTodayList);
-    }
+    }   
     catch(err){
         throw err;
     }
@@ -44,6 +43,24 @@ async function GetToDoList(date) {
     }
 }
 
+async function CreateToDo(new_todo){
+    console.log("Create :",new_todo);
+    const user_id;
+    const date;
+    const text;
+    const done;
+    conn.query('INSERT INTO list (text,done,user_id,date) VALUES(?,?,?,?,?);', [text,done,user_id,date],
+        function (err, results, fields) {
+            if (err) throw err;
+                console.log('Inserted ' + results.affectedRows + ' row(s).');
+    });
+}
+
+async function DeleteToDo(todo){
+    console.log("Delete :");
+    
+}
 module.exports = {
-    getToDoList: GetToDoList
+    getToDoList: GetToDoList,
+    createToDo : CreateToDo
 }

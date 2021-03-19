@@ -9,14 +9,6 @@ const port = process.env.PORT || 3002;
 
 // db connect code
 var todos;
-// mdbConn.getToDoList()
-//     .then((rows) => {
-//         console.log("in server.js",rows);
-//         todos = rows;
-//     })
-//     .catch((errMsg) => {
-//         console.log(errMsg);
-//     });
 
 app.use(cors());
 
@@ -43,6 +35,20 @@ app.get('/api/todolist/:date', function(req, res) {
         res.json({initialTodos:rows});
     })
     .catch((errMsg) => {
+        console.log(errMsg);
+    })
+});
+
+app.post('/api/create', (req, res) => {
+    var new_todo = req.body.todo;
+    mdbConn.createToDo(new_todo).catch((errMsg) => {
+        console.log(errMsg);
+    })
+});
+
+app.post('/api/delete', (req, res) => {
+    var todoId = req.body.todo.id;
+    mdbConn.deleteToDo(todoId).catch((errMsg) => {
         console.log(errMsg);
     })
 });
