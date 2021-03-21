@@ -13,6 +13,16 @@ function todoReducer(state, action){
         case 'RENEW': //setState와 동일한 기능을 하게 만들고 싶다. 
             return action.todo;
         case 'CREATE':
+            console.log("create: ",action.todo);
+            fetch("http://localhost:3002/api/create",{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    todo: action.todo,
+                }),
+            }).then(response => response.json());
             return state.concat(action.todo);
         case 'TOGGLE':
             return state.map(todo =>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styled, {css} from 'styled-components';
 import {MdAdd} from 'react-icons/md';
-import { useTodoDispatch, useTodoNextId } from '../TodoContext';
+import { useTodoDispatch, useTodoNextId, useDateState } from '../TodoContext';
 
 const CircleButton = styled.button`
     background: #38d9a9;
@@ -82,7 +82,8 @@ function TodoCreate(){
     // Setter 함수 : 파라미터로 전달받은 값을 최신 상태로 설정 
     const [open, setOpen] = useState(false); // 배열 비구조화 할당 
     const [value, setValue] = useState('');
-    
+    const dateState = useDateState();
+
     const dispatch = useTodoDispatch();
     var nextId = useTodoNextId();
     console.log("nextId :",nextId);
@@ -95,6 +96,7 @@ function TodoCreate(){
             todo: {
                 id : nextId,
                 text: value,
+                date: dateState,
                 done: false
             }
         });

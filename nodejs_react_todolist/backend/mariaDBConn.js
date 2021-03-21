@@ -44,20 +44,34 @@ async function GetToDoList(date) {
 }
 
 async function CreateToDo(new_todo){
-    console.log("Create :",new_todo);
-    const user_id;
-    const date;
-    const text;
-    const done;
-    conn.query('INSERT INTO list (text,done,user_id,date) VALUES(?,?,?,?,?);', [text,done,user_id,date],
+    //console.log("Create :",new_todo);
+    let conn, rows;
+    const user_id = null;
+    const date = getFormatDate(new Date(new_todo.date));
+    const text =new_todo.text;
+    const done = new_todo.done;
+    try {
+        conn = await pool.getConnection();
+        conn.query('USE todolist');
+        await conn.query('INSERT INTO list (text,done,user_id,date) VALUES(?,?,?,?);', [text,done,user_id,date],
         function (err, results, fields) {
             if (err) throw err;
                 console.log('Inserted ' + results.affectedRows + ' row(s).');
     });
+    }   
+    catch(err){
+        throw err;
+    }
+    finally {
+        if (conn) conn.end();
+        //console.log(rows);
+    }
+    
 }
 
-async function DeleteToDo(todo){
-    console.log("Delete :");
+async function DeleteToDo(key){
+    console.log("Delete :",key);
+    conn.query('DELETE FROM list *****');
     
 }
 module.exports = {

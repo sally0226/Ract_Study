@@ -46,12 +46,12 @@ app.post('/api/create', (req, res) => {
     })
 });
 
-app.post('/api/delete', (req, res) => {
-    var todoId = req.body.todo.id;
-    mdbConn.deleteToDo(todoId).catch((errMsg) => {
-        console.log(errMsg);
-    })
-});
+// app.post('/api/delete', (req, res) => {
+//     var todoId = req.body.todo.id;
+//     mdbConn.deleteToDo(todoId).catch((errMsg) => {
+//         console.log(errMsg);
+//     })
+// });
 app.listen(port, ()=>{
     console.log(`express is running on ${port}`);
 })
