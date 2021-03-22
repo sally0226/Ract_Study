@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useReducer, useRef, useEffect} from 'react';
+import React, {createContext, useContext, useReducer, useRef, useEffect, useState} from 'react';
 
 const initialTodos = [
         {
@@ -58,10 +58,10 @@ const DateStateContext = createContext();
 //state 관리 컴포넌트 
 export function TodoProvider(props){
     const [state, dispatch] = useReducer(todoReducer, initialTodos);
-    
+    const [nextId, setNextId] = useState(1);
+    console.log(nextId);
     const today = new Date();
     const [dateState, dateDispatch] = useReducer(dateReducer, today);
-    //console.log('http://localhost:3002/api/todolist/'+dateState.toString());
     useEffect(()=> {
         fetch('http://localhost:3002/api/todolist/'+dateState.toString(),{
             method: "GET",
@@ -73,13 +73,23 @@ export function TodoProvider(props){
             todo: data.initialTodos
         }));
     },[dateState]);
-    
+    useEffect(()=> {
+        fetch('http://localhost:3002/api/maxId',{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then(res=> res.json()).then(data=>{
+            //console.log(data.maxId);
+            setNextId(data.maxId);
+        })
+    },[]);
     //console.log("context :",state.length);
-    
+    console.log(nextId);
     return (
         <TodoStateContext.Provider value={state}>
             <TodoDispatchContext.Provider value={dispatch}>
-                <TodoNextIdContext.Provider value={state.length+1}>
+                <TodoNextIdContext.Provider value={nextId,setNextId}>
                     <DateStateContext.Provider value={dateState}>
                         <DateDispatchContext.Provider value = {dateDispatch}>
                             {props.children}

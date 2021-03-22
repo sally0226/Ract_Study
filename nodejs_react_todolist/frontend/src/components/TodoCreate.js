@@ -85,7 +85,7 @@ function TodoCreate(){
     const dateState = useDateState();
 
     const dispatch = useTodoDispatch();
-    var nextId = useTodoNextId();
+    const {nextId, setNextId} = useTodoNextId();
     console.log("nextId :",nextId);
     const onToggle = () => setOpen(!open);
     const onChange = e => setValue(e.target.value);
@@ -102,7 +102,7 @@ function TodoCreate(){
         });
         setValue('');
         setOpen(false);
-        nextId += 1;
+        setNextId(nextId+1);
     };
 
     return (

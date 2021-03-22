@@ -38,7 +38,16 @@ app.get('/api/todolist/:date', function(req, res) {
         console.log(errMsg);
     })
 });
-
+app.get('/api/maxId', (req, res) => {
+    mdbConn.getMaxId()
+    .then((maxId) => {
+        console.log("dd :",maxId);
+        res.json({maxId: maxId}); 
+    })
+    .catch((errMsg) => {
+        console.log(errMsg);
+    })
+});
 app.post('/api/create', (req, res) => {
     var new_todo = req.body.todo;
     mdbConn.createToDo(new_todo).catch((errMsg) => {

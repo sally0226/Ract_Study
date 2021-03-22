@@ -42,10 +42,29 @@ async function GetToDoList(date) {
         return rows;
     }
 }
+async function GetMaxId(){
+    let conn, maxId;
+    try {
+        conn = await pool.getConnection();
+        conn.query('USE todolist');
+        maxId = await conn.query('SELECT max(id) as maxid from list;');
+        console.log(maxId[0].maxid);
+        //console.log(maxId[0][0]);
+        //console.log(maxId[0]['max(id)']);
+    }   
+    catch(err){
+        throw err;
+    }
+    finally {
+        if (conn) conn.end();
+        //console.log(rows);
+        return maxId[0].maxid;
+    }
 
+}
 async function CreateToDo(new_todo){
     //console.log("Create :",new_todo);
-    let conn, rows;
+    let conn;
     const user_id = null;
     const date = getFormatDate(new Date(new_todo.date));
     const text =new_todo.text;
@@ -76,5 +95,6 @@ async function DeleteToDo(key){
 }
 module.exports = {
     getToDoList: GetToDoList,
-    createToDo : CreateToDo
+    createToDo : CreateToDo,
+    getMaxId : GetMaxId
 }
