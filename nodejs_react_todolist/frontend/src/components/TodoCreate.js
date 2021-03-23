@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styled, {css} from 'styled-components';
 import {MdAdd} from 'react-icons/md';
-import { useTodoDispatch, useTodoNextId, useDateState } from '../TodoContext';
+import { useTodoDispatch, useNextIdDispatch, useNextIdState, useDateState } from '../TodoContext';
 
 const CircleButton = styled.button`
     background: #38d9a9;
@@ -85,7 +85,8 @@ function TodoCreate(){
     const dateState = useDateState();
 
     const dispatch = useTodoDispatch();
-    const {nextId, setNextId} = useTodoNextId();
+    const nextId = useNextIdState();
+    const setNextId = useNextIdDispatch();
     console.log("nextId :",nextId);
     const onToggle = () => setOpen(!open);
     const onChange = e => setValue(e.target.value);

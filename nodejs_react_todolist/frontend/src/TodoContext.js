@@ -51,7 +51,8 @@ function dateReducer(state, action){
 }
 const TodoStateContext = createContext();
 const TodoDispatchContext = createContext();
-const TodoNextIdContext = createContext();
+const NextIdStateContext = createContext();
+const NextIdDispatchContext = createContext();
 const DateDispatchContext = createContext();
 const DateStateContext = createContext();
 
@@ -81,7 +82,7 @@ export function TodoProvider(props){
             },
         }).then(res=> res.json()).then(data=>{
             //console.log(data.maxId);
-            setNextId(data.maxId);
+            setNextId(data.maxId+1);
         })
     },[]);
     //console.log("context :",state.length);
@@ -89,13 +90,15 @@ export function TodoProvider(props){
     return (
         <TodoStateContext.Provider value={state}>
             <TodoDispatchContext.Provider value={dispatch}>
-                <TodoNextIdContext.Provider value={nextId,setNextId}>
-                    <DateStateContext.Provider value={dateState}>
-                        <DateDispatchContext.Provider value = {dateDispatch}>
-                            {props.children}
-                        </DateDispatchContext.Provider>
-                    </DateStateContext.Provider>
-                </TodoNextIdContext.Provider>
+                <NextIdStateContext.Provider value={nextId}>
+                    <NextIdDispatchContext.Provider value={setNextId}>
+                        <DateStateContext.Provider value={dateState}>
+                            <DateDispatchContext.Provider value = {dateDispatch}>
+                                {props.children}
+                            </DateDispatchContext.Provider>
+                        </DateStateContext.Provider>
+                    </NextIdDispatchContext.Provider>
+                </NextIdStateContext.Provider>
             </TodoDispatchContext.Provider>
         </TodoStateContext.Provider>
     );
@@ -118,8 +121,15 @@ export function useTodoDispatch() {
     return context;
 }
 
-export function useTodoNextId(){
-    const context = useContext(TodoNextIdContext);
+export function useNextIdState(){
+    const context = useContext(NextIdStateContext);
+    if (!context){
+        throw new Error('Cannot find TodoProvider');
+    }
+    return context;
+}
+export function useNextIdDispatch(){
+    const context = useContext(NextIdDispatchContext);
     if (!context){
         throw new Error('Cannot find TodoProvider');
     }
