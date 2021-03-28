@@ -28,6 +28,12 @@ function todoReducer(state, action){
             return state.map(todo =>
                 todo.id === action.id ? {...todo, done: !todo.done} : todo);
         case 'REMOVE':
+            fetch("http://localhost:3002/api/delete/"+action.id.toString(), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
             return state.filter(todo => todo.id !== action.id);
         default: 
             throw new Error(`Unhandled action type: ${action.type}`);

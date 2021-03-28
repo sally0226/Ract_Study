@@ -48,6 +48,10 @@ app.get('/api/maxId', (req, res) => {
         console.log(errMsg);
     })
 });
+app.get('/api/delete/:id', (req,res)=> {
+    consold.log(req.params.id);
+    mdbConn.deleteTodo(req.params.id).then(console.log("delete success"));
+});
 app.post('/api/create', (req, res) => {
     var new_todo = req.body.todo;
     mdbConn.createToDo(new_todo).catch((errMsg) => {

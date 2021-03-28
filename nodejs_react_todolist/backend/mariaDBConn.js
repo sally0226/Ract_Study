@@ -89,12 +89,25 @@ async function CreateToDo(new_todo){
 }
 
 async function DeleteToDo(key){
+    let conn
     console.log("Delete :",key);
-    conn.query('DELETE FROM list *****');
+    var query = "DELETE FROM list WHERE id = "+ key.toString()
+    console.log(query);
+    try {
+        conn = await pool.getConnection();
+        await conn.query(query);
+    } catch(err){
+        throw err;
+    }
+    finally {
+        if (conn) conn.end();
+    }
+    
     
 }
 module.exports = {
     getToDoList: GetToDoList,
     createToDo : CreateToDo,
-    getMaxId : GetMaxId
+    getMaxId : GetMaxId,
+    deleteTodo : DeleteToDo
 }
