@@ -47,8 +47,9 @@ async function GetMaxId(){
     try {
         conn = await pool.getConnection();
         conn.query('USE todolist');
-        maxId = await conn.query('SELECT max(id) as maxid from list;');
-        console.log(maxId[0].maxid);
+        // maxId = await conn.query('SELECT max(id) as maxid from list;');
+        maxId = await conn.query('SELECT LAST_INSERT_ID() as maxid;');
+        console.log(maxId);
         //console.log(maxId[0][0]);
         //console.log(maxId[0]['max(id)']);
     }   
@@ -91,11 +92,11 @@ async function CreateToDo(new_todo){
 async function DeleteToDo(key){
     let conn
     console.log("Delete :",key);
-    var query = "DELETE FROM list WHERE id = "+ key.toString()
-    console.log(query);
+    console.log("DELETE FROM list WHERE id = "+ key);
     try {
         conn = await pool.getConnection();
-        await conn.query(query);
+        conn.query('USE todolist');
+        await conn.query("DELETE FROM list WHERE id = "+ key);
     } catch(err){
         throw err;
     }

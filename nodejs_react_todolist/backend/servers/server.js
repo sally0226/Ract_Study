@@ -49,7 +49,7 @@ app.get('/api/maxId', (req, res) => {
     })
 });
 app.get('/api/delete/:id', (req,res)=> {
-    consold.log(req.params.id);
+    console.log(req.params.id);
     mdbConn.deleteTodo(req.params.id).then(console.log("delete success"));
 });
 app.post('/api/create', (req, res) => {
